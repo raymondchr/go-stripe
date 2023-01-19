@@ -17,9 +17,9 @@ type config struct {
 	port int
 	env  string
 	api  string
-	db   struct {
-		dsn string
-	}
+	// db   struct {
+	// 	dsn string
+	// }
 	stripe struct {
 		secret string
 		key    string
@@ -44,7 +44,7 @@ func (app *application) serve() error {
 		WriteTimeout:      5 * time.Second,
 	}
 
-	app.infoLog.Println(fmt.Sprintf("Starting server in %s mode on port %d", app.config.env, app.config.port))
+	app.infoLog.Printf("Starting server in %s mode on port %d", app.config.env, app.config.port)
 
 	return srv.ListenAndServe()
 }
@@ -54,7 +54,7 @@ func main() {
 
 	flag.IntVar(&cfg.port, "port", 4000, "Server port listening on")
 	flag.StringVar(&cfg.env, "env", "development", "Application environment {development|production}")
-	flag.StringVar(&cfg.api, "api", "http://localhost:4041", "URL to api")
+	flag.StringVar(&cfg.api, "api", "http://localhost:4001", "URL to api")
 
 	flag.Parse()
 
