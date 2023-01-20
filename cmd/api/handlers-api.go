@@ -8,7 +8,7 @@ import (
 )
 
 type stripePayload struct {
-	Currency string `json:"curreny"`
+	Currency string `json:"currency"`
 	Amount   string `json:"amount"`
 }
 
@@ -16,7 +16,7 @@ type jsonResponse struct {
 	OK      bool   `json:"ok"`
 	Message string `json:"message,omitempty"`
 	Content string `json:"content,omitempty"`
-	ID      string `json:"id,omitempty"`
+	ID      int `json:"id,omitempty"`
 }
 
 func (app *application) GetPaymentIntent(w http.ResponseWriter, r *http.Request) {
@@ -51,6 +51,7 @@ func (app *application) GetPaymentIntent(w http.ResponseWriter, r *http.Request)
 		out, err := json.MarshalIndent(pi, "", "   ")
 		if err != nil {
 			app.errorLog.Println(err)
+			return
 		}
 		w.Header().Set("Content-Type", "application/json")
 		w.Write(out)
@@ -59,7 +60,7 @@ func (app *application) GetPaymentIntent(w http.ResponseWriter, r *http.Request)
 			OK:      false,
 			Message: msg,
 			Content: "",
-			ID:      "",
+			
 		}
 
 		out, err := json.MarshalIndent(j, "", "  ")
